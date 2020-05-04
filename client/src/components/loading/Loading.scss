@@ -1,0 +1,15 @@
+.loading-screen {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+    background-color: rgba(255, 255, 255, 0.7);
+    // background-color: rgba(255, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: -15px;
+}
+
+.spinner {
+}

@@ -1,0 +1,24 @@
+.page-list {
+    position: relative;
+    top: 120px;
+    height: 60vh;
+    overflow: auto;
+    .list-group-item {
+        padding: 8px;
+        text-align: center;
+        border: 1px solid rgb(184, 184, 184) !important;
+        border-radius: 6px !important;
+        &:not(:last-child) {
+            margin-bottom: 3px;
+        }
+        &:first-child {
+            border-color: rgb(45, 148, 245) !important;
+        }
+    }
+    .down-arrow {
+        margin-bottom: 3px;
+        text-align: center;
+        font-size: 0.7rem;
+        color: rgb(129, 129, 129);
+    }
+}
