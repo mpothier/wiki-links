@@ -9,13 +9,17 @@ class Explore extends Component {
         if (paramsOptionId) {
             // Set global state "option" based on specified URL param
             this.props.setOption(paramsOptionId)
+                .catch(() => {
+                    // Re-route to root 'explore' page if no option exists by specified option id
+                    this.props.history.push('/explore')
+                })
         }
     }
 
     componentDidUpdate(prevProps, prevState, snapshop) {
         const paramsOptionId = this.props.match.params.optionId
         const prevParamsOptionId = prevProps.match.params.optionId
-        // Set global state "option" based on specified URL param
+        // Set global state "option" based on specified URL param (e.g. when new option selected from Options modal)
         if ((prevParamsOptionId !== paramsOptionId) && paramsOptionId) {
             this.props.setOption(paramsOptionId)
         }
@@ -41,7 +45,7 @@ class Explore extends Component {
                             <h3>All Entries for Option</h3>
                             {this.props.entries.map(entry => {
                                 return (
-                                    <div key={entry}>{entry.id}</div>
+                                    <div key={entry._id}>{entry._id}</div>
                                 )
                             })}
                         </div>
@@ -49,14 +53,14 @@ class Explore extends Component {
                             <h3>Local Storage Entries for Option</h3>
                             {loadEntriesFromLocalStorage(this.props.optionId).map(entry => {
                                 return (
-                                    <div key={entry.id}>{entry.id}</div>
+                                    <div key={entry._id}>{entry._id}</div>
                                 )
                             })}
                         </div>
                         {this.props.match.params.entryId ? (
                             <div>
                                 <h3>Entry Link List</h3>
-                                {this.props.entries.filter(entry => entry.id === this.props.match.params.entryId)[0]?.links.map(link => {
+                                {this.props.entries.filter(entry => entry._id === this.props.match.params.entryId)[0]?.pageLinks.map(link => {
                                     return (
                                         <div key={link}>{link}</div>
                                     )
@@ -72,7 +76,7 @@ class Explore extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        optionId: state.option.id,
+        optionId: state.option._id,
         titleStart: state.option.titleStart,
         titleFinish: state.option.titleFinish,
         optionLoading: state.option.loading,

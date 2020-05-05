@@ -34,7 +34,7 @@ class Navbar extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        optionId: state.option.id
+        optionId: state.option._id
     }
 }
 

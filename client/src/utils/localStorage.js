@@ -1,7 +1,7 @@
-export const saveEntryToLocalStorage = (optionId, entryId, links) => {
+export const saveEntryToLocalStorage = (optionId, entryId, pageLinks) => {
     const newEntryObject = {
-        id: entryId,
-        links: links
+        _id: entryId,
+        pageLinks: pageLinks
     }
     var localEntriesData = localStorage.getItem('entries') ? JSON.parse(localStorage.getItem('entries')) : {}
     var optionEntriesList = localEntriesData[optionId] ? [...localEntriesData[optionId], newEntryObject] : [newEntryObject]

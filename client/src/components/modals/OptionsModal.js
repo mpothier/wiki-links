@@ -25,7 +25,7 @@ class OptionsModal extends Component {
             <div className="mask">
                 <div className="modal-box">
                     {this.props.options.map(option => (
-                        <div key={option.id} onClick={ () => {this.handleChangeOption(option.id)} } className="list-group-item">{ option.titleStart + ' >> ' + option.titleFinish }</div>
+                        <div key={option._id} onClick={ () => {this.handleChangeOption(option._id)} } className="list-group-item">{ option.titleStart + ' >> ' + option.titleFinish }</div>
                     ))}
                     <hr />
                     <button onClick={this.props.closeModal} >Close</button>

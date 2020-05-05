@@ -11,13 +11,17 @@ class Play extends Component {
     if (paramsOptionId) {
       // Set global state "option" based on specified URL param
       this.props.setOption(paramsOptionId)
+        .catch(() => {
+          // Re-route to root 'explore' page if no option exists by specified option id
+          this.props.history.push('/play')
+        })
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshop) {
     const paramsOptionId = this.props.match.params.optionId
     const prevParamsOptionId = prevProps.match.params.optionId
-    // Set global state "option" based on specified URL param
+    // Set global state "option" based on specified URL param (e.g. when new option selected from Options modal)
     if ((prevParamsOptionId !== paramsOptionId) && paramsOptionId) {
       this.props.setOption(paramsOptionId)
     }
@@ -60,7 +64,7 @@ class Play extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    optionId: state.option.id,
+    optionId: state.option._id,
     titleStart: state.option.titleStart,
     titleFinish: state.option.titleFinish,
     optionLoading: state.option.loading,

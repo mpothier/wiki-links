@@ -1,7 +1,7 @@
 const initState = {
     titleStart: null,
     titleFinish: null,
-    id: null,
+    _id: null,
     entries: [],
     loading: false
 }
@@ -9,18 +9,18 @@ const initState = {
 const optionReducer = (state=initState, action) => {
     switch (action.type) {
         case 'START_LOAD_OPTION':
-            console.log(`Loading option ${action.option.id}: ${action.option.titleStart} >> ${action.option.titleFinish}`)
+            console.log(`Loading option ${action.option._id}: ${action.option.titleStart} >> ${action.option.titleFinish}`)
             return {
                 ...state,
                 loading: true
             }
         case 'LOAD_OPTION':
-            console.log(`Loaded option ${action.option.id}: ${action.option.titleStart} >> ${action.option.titleFinish}`)
+            console.log(`Loaded option ${action.option._id}: ${action.option.titleStart} >> ${action.option.titleFinish}`)
             return {
                 ...state,
                 titleStart: action.option.titleStart,
                 titleFinish: action.option.titleFinish,
-                id: action.option.id,
+                _id: action.option._id,
                 entries: action.option.entries,
                 loading: false
             }

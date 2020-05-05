@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { addPageToPlaySession } from '../../store/actions/playActions'
-import { addEntryToOption } from '../../store/actions/optionActions'
 import Loading from '../loading/Loading'
-import { saveEntryToLocalStorage } from '../../utils/localStorage'
 import './WikiBrowser.scss';
 
 class WikiBrowser extends Component {
@@ -19,16 +17,12 @@ class WikiBrowser extends Component {
     }
     handleComplete = (title) => {
         this.props.addPageToPlaySession(title)
-        // wait for Promise return with auto-generated entry uuid, then.....
-        const entryId = Math.random() * 100
-        // Add entry to global state for option
-        this.props.addEntryToOption(entryId)
-        // Save entry to local storage
-        saveEntryToLocalStorage(this.props.optionId, entryId, this.props.pageList.map(page => page.title))
-        // Redirect to view entry in 'Explore' page
-        setTimeout(() => {
-            this.props.history.push(`/explore/${this.props.optionId}/${entryId}`)
-        }, 3000)
+            .then(entryId => {
+                // Redirect to view entry in 'Explore' page using newly created/returned entry id
+                setTimeout(() => {
+                    this.props.history.push(`/explore/${this.props.optionId}/${entryId}`)
+                }, 2500)
+            })
     }
     filterLinks = () => {
         var query = this.state.searchInput.toLowerCase();
@@ -95,7 +89,7 @@ class WikiBrowser extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        optionId: state.option.id,
+        optionId: state.option._id,
         titleStart: state.option.titleStart,
         titleFinish: state.option.titleFinish,
         optionLoading: state.option.loading,
@@ -108,8 +102,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addPageToPlaySession: (title) => dispatch(addPageToPlaySession(title)),
-        addEntryToOption: (entryId) => dispatch(addEntryToOption(entryId))
+        addPageToPlaySession: (title) => dispatch(addPageToPlaySession(title))
     }
 }
 
