@@ -3,10 +3,30 @@ $feature-color-dark: rgb(219, 117, 0);
 $highlight-color: rgb(0, 224, 216);
 $highlight-color-dark: rgb(0, 161, 182);
 
+#chart {
+    padding: 20px;
+    height: 400px;
+    max-width: 600px;
+}
+
 #chart-canvas {
+    display: inline-block;
     position: relative;
-    cursor: crosshair;
+    // height: 100%;
+    // padding-bottom: 100%;
+    vertical-align: top;
+    // overflow: hidden;
+    width: 100%;
     user-select: none;
+    svg.svg-content {
+        // border: 1px solid rgba(0,0,0,0.2);
+        background-color: rgb(238, 238, 238);
+        cursor: crosshair;
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 }
 
 .node {
@@ -53,19 +73,33 @@ $highlight-color-dark: rgb(0, 161, 182);
 }
 
 .downlight {
-    opacity: 0.2
+    opacity: 0.25;
 }
 
 .d3-tooltip {
-    position: absolute;
-    padding-left: 4px;
-    padding-right: 4px;
-    font-size: 12px;
-    font-weight: 500;
-    color: $highlight-color-dark;
-    background: rgba(255,255,255,0.6);
-    border-radius: 8px;
-    &.featured {
-        color: $feature-color-dark;
+    // For 'div' text:
+    // position: absolute;
+    // padding-left: 4px;
+    // padding-right: 4px;
+    // font-size: 12px;
+    // font-weight: 500;
+    // color: $highlight-color-dark;
+    // background: rgba(255,255,255,0.6);
+    // border-radius: 8px;
+    // &.featured {
+    //     color: $feature-color-dark;
+    // }
+
+    // For SVG text:
+    text {
+        fill: $highlight-color-dark;
+        font-size: 12px;
+        font-weight: 500;
+        &.featured {
+            fill: $feature-color-dark;
+        }
+    }
+    rect {
+        fill: rgba(255,255,255,0.6);
     }
   }

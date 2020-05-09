@@ -5,6 +5,11 @@ import { setOption } from '../../store/actions/optionActions'
 import { loadEntriesFromLocalStorage } from '../../utils/localStorage'
 
 class Explore extends Component {
+
+    state = {
+        pathIdToHighlight: null
+    }
+
     componentDidMount() {
         const paramsOptionId = this.props.match.params.optionId
         if (paramsOptionId) {
@@ -37,7 +42,7 @@ class Explore extends Component {
             return (
                 <div className="explore">
                     <div className="container">
-                        <LinkChart entryId={this.props.match.params.entryId ? this.props.match.params.entryId : null}/>
+                        <LinkChart highlightId={this.state.pathIdToHighlight} entryId={this.props.match.params.entryId ? this.props.match.params.entryId : null} optionId={this.props.optionId}/>
                         <div className="text-center mb-4">
                             <h1>
                                 {this.props.titleStart + '  >>  ' + this.props.titleFinish}
@@ -55,7 +60,12 @@ class Explore extends Component {
                             <h3>Local Storage Entries for Option</h3>
                             {loadEntriesFromLocalStorage(this.props.optionId).map(entry => {
                                 return (
-                                    <div key={entry._id}>{entry._id}</div>
+                                    <div
+                                        onClick={() => this.props.history.push(`/explore/${this.props.match.params.optionId}/${entry._id}`)}
+                                        onMouseEnter={() => this.setState({pathIdToHighlight: entry._id})}
+                                        onMouseOut ={() => this.setState({pathIdToHighlight: null})}
+                                        key={entry._id}
+                                    >{entry._id}</div>
                                 )
                             })}
                         </div>
