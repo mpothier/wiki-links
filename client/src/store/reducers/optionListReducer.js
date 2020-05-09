@@ -21,6 +21,15 @@ const optionListReducer = (state=initState, action) => {
         case 'LOAD_OPTIONS_ERROR':
             console.log('Load options error:', action.err)
             return state
+        case 'ADD_OPTION':
+            console.log(`Adding option ${action.option._id}: ${action.option.titleStart} >> ${action.option.titleFinish}`)
+            return {
+                ...state,
+                options: [
+                    ...state.options,
+                    action.option
+                ]
+            }
         default:
             return state
     }

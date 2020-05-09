@@ -1,0 +1,71 @@
+$feature-color: orange;
+$feature-color-dark: rgb(219, 117, 0);
+$highlight-color: rgb(0, 224, 216);
+$highlight-color-dark: rgb(0, 161, 182);
+
+#chart-canvas {
+    position: relative;
+    cursor: crosshair;
+    user-select: none;
+}
+
+.node {
+    fill: rgb(200,200,200);
+    stroke: white;
+    stroke-width: 2px;
+    &.highlight {
+        stroke: white;
+        stroke-width: 3px;
+        fill: $highlight-color;
+        &.featured {
+            fill: $feature-color;
+        }
+    }
+    &.connected {
+        fill: white;
+        stroke: $highlight-color;
+        &.featured {
+            fill: white;
+            stroke: $feature-color;
+        }
+    }
+    &.featured {
+        fill: white;
+        stroke: $feature-color;
+    }
+}
+
+.link {
+    stroke: rgba(0,0,0,0.15);
+    stroke-width: 2px;
+    // stroke-opacity: 1;
+    &.featured {
+        stroke: $feature-color;
+        &.highlight {
+            stroke: $feature-color;
+            stroke-width: 4;
+        }
+    }
+    &.highlight {
+        stroke: $highlight-color;
+        stroke-width: 3;
+    }
+}
+
+.downlight {
+    opacity: 0.2
+}
+
+.d3-tooltip {
+    position: absolute;
+    padding-left: 4px;
+    padding-right: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    color: $highlight-color-dark;
+    background: rgba(255,255,255,0.6);
+    border-radius: 8px;
+    &.featured {
+        color: $feature-color-dark;
+    }
+  }

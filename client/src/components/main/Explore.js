@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import LinkChart from '../explore/LinkChart'
 import { setOption } from '../../store/actions/optionActions'
 import { loadEntriesFromLocalStorage } from '../../utils/localStorage'
 
@@ -36,6 +37,7 @@ class Explore extends Component {
             return (
                 <div className="explore">
                     <div className="container">
+                        <LinkChart entryId={this.props.match.params.entryId ? this.props.match.params.entryId : null}/>
                         <div className="text-center mb-4">
                             <h1>
                                 {this.props.titleStart + '  >>  ' + this.props.titleFinish}

@@ -1,11 +1,11 @@
 const Option = require('../models/Option')
 
-// @desc    Get all options
-// @route   GET /api/v1/options
+// @desc    Get all options (or find matching option(s) based on optional query parameters)
+// @route   GET /api/v1/options [?titleStart=<titleStart>&titleFinish=<titleFinish>]
 // @access  Public
 exports.getOptions = async (req, res, next) => {
     try {
-        const options = await Option.find();
+        const options = await Option.find(req.query);
         return res.status(200).json({
             success: true,
             count: options.length,
@@ -24,9 +24,15 @@ exports.getOptions = async (req, res, next) => {
 // @access  Public
 exports.addOption = async (req, res, next) => {
     try {
-        const { titleStart, titleFinish } = req.body;
-        // TODO: check if exact option already exists;
-        // also confirm that start/finish titles are valid Wiki page names (can happen on client side)
+        // Check if exact option already exists
+        const existingOptions = await Option.find(req.body);
+        if (existingOptions.length > 0) {
+            return res.status(403).json({
+                success: false,
+                error: 'Duplicate option'
+            })
+        }
+        // Create new document in database
         const option = await Option.create(req.body)
         return res.status(201).json({
             success: true,
@@ -42,7 +48,7 @@ exports.addOption = async (req, res, next) => {
 
 // @desc    Delete option
 // @route   DELETE /api/v1/options/:id
-// @access  Public
+// @access  Private
 exports.deleteOption = async (req, res, next) => {
     try {
         const option = await Option.findById(req.params.id);
