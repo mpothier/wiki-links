@@ -2,31 +2,25 @@ import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faArrowDown } from '@fortawesome/free-solid-svg-icons'
+import { faArrowDown, faBars, faTimes, faArrowRight, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons'
+// import { faWikipediaW } from '@fortawesome/free-brands-svg-icons'
 
 import Navbar from './components/layout/Navbar'
 import Home from './components/main/Home'
-import OptionsModal from './components/modals/OptionsModal'
 import Play from './components/main/Play'
 import Explore from './components/main/Explore'
 import { loadOptions } from './store/actions/optionListActions'
 
 import './App.scss'
 
-library.add(faArrowDown)
+library.add(faArrowDown, faBars, faTimes, faQuestionCircle, faArrowRight, faPlus)
 
 
 class App extends Component {
   state = {
-    initialLoading: true,
-    showModal: false
+    initialLoading: true
   }
-
-  toggleOptionsModal = () => {
-    this.setState({
-      showModal: !this.state.showModal
-    })
-  } 
 
   componentDidMount() {
     // Load all options from server/database
@@ -44,17 +38,18 @@ class App extends Component {
         {this.state.initialLoading ? (
           null
         ) : (
-          <div>
-            <Navbar toggleModal={this.toggleOptionsModal} />
-            {this.state.showModal ? <OptionsModal closeModal={this.toggleOptionsModal} /> : null}
-            <Switch>
-              <Route exact path='/' render={(props) => <Home {...props} optionsModal={this.optionsModal} />} />
-              <Route exact path='/play' component={Play} />
-              <Route path='/play/:optionId' component={Play} />
-              <Route exact path='/explore' component={Explore} />
-              <Route exact path='/explore/:optionId' component={Explore} />
-              <Route path='/explore/:optionId/:entryId' component={Explore} />
-            </Switch>
+          <div id="app">
+            <Navbar />
+            <div id="content">
+              <Switch>
+                <Route exact path='/' component={Home} />
+                <Route exact path='/play' component={Play} />
+                <Route path='/play/:optionId' component={Play} />
+                <Route exact path='/explore' component={Explore} />
+                <Route exact path='/explore/:optionId' component={Explore} />
+                <Route path='/explore/:optionId/:entryId' component={Explore} />
+              </Switch>
+            </div>
           </div>
         )}
       </BrowserRouter>

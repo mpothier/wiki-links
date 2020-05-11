@@ -9,16 +9,18 @@
     transition: all 0.3s ease-out;
     .modal-box {
         position: fixed;
-        max-height: 50%;
-        overflow: auto;
-        /* width: 250px; */
+        max-height: 80%;
+        max-width: 80%;
+        height: 600px;
+        width: 800px;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 500;
+        overflow: auto;
         background-color: white;
         box-shadow: 2px 2px 8px rgba(0,0,0,0.6);
-        padding: 15px;
+        padding: 40px;
         transition: all 0.3s ease-out;
     }
 }

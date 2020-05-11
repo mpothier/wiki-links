@@ -18,7 +18,7 @@ class LinkChart extends Component {
 
     getSvg = () => {
         return (d3.select('#chart-canvas svg').size() > 0) ? (
-            d3.select('svg')
+            d3.select('#chart-canvas svg')
         ) : (
                 d3.select('#chart-canvas')
                     .append('svg')
@@ -344,7 +344,7 @@ class LinkChart extends Component {
     }
 
     redrawChart = () => {
-        d3.selectAll('g')
+        d3.selectAll('#chart-canvas g')
             .remove()
         d3.selectAll('.d3-tooltip')
             .remove()

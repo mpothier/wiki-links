@@ -68,7 +68,15 @@ class WikiBrowser extends Component {
             <div id="wiki-browser" className="container">
                 {this.props.loading ? <Loading /> : null}
                 <h1 className="mb-4">{this.props.currentPageData.title || 'Loading...'}</h1>
-                <input type="text" id="searchInput" className="form-control" placeholder="Search links..." onChange={this.handleChange} value={this.state.searchInput}/>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    className="form-control" 
+                    placeholder="Search links..." 
+                    onChange={this.handleChange} 
+                    value={this.state.searchInput}
+                    autoComplete="off"
+                 />
                 <div id="link-list">
                     {this.state.filteredLinks.map(link => {
                         if (link === this.props.titleFinish) {

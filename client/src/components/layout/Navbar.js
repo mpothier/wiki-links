@@ -1,47 +1,42 @@
 import React, { Component } from 'react'
-import { Link, withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { setOption } from '../../store/actions/optionActions'
+import Header from './Header'
+import Sidebar from './Sidebar'
+import AboutModal from '../modals/AboutModal'
+
+import './Navbar.scss'
 
 class Navbar extends Component {
-    resetPlay = () => {
-        const {optionId, setOption} = this.props
-        // Reset option play if option exists and already on matching 'play' route
-        if (optionId && ('/play/' + optionId === this.props.location.pathname)) {
-            setOption(optionId)
+    state = {
+        sidebarOpen: false,
+        sidebarClass: 'sidebar closed',
+        showModal: false
+    }
+
+    toggleSidebar = () => {
+        if (!this.state.sidebarOpen) {
+            this.setState({ sidebarOpen: true, sidebarClass: 'sidebar' })
+        } else {
+            this.setState({ sidebarClass: 'sidebar closed' })
+            setTimeout(() => this.setState({ sidebarOpen: false }), 500)
         }
     }
 
+    toggleAboutModal = () => {
+        this.setState({
+            showModal: !this.state.showModal
+        })
+    }
+
     render() {
-        const {toggleModal, optionId} = this.props
+        const { toggleModal } = this.props
         return (
-            <div>
-                <Link to='/' >
-                    <h1>Home</h1>
-                </Link>
-                <Link to={ optionId ? '/play/' + optionId : '/play' } >
-                    <h1 onClick={this.resetPlay}>Play</h1>
-                </Link>
-                <Link to={ optionId ? '/explore/' + optionId : '/explore' } >
-                    <h1>Explore</h1>
-                </Link>
-                <h1 onClick={toggleModal} >Options</h1>
-                <h1>About</h1>
+            <div id='navbar'>
+                <Header toggleSidebar={this.toggleSidebar} sidebarOpen={this.state.sidebarOpen} toggleAboutModal={this.toggleAboutModal} />
+                {this.state.sidebarOpen ? <Sidebar toggleSidebar={this.toggleSidebar} sidebarClass={this.state.sidebarClass} toggleAboutModal={this.toggleAboutModal} /> : null}
+                {this.state.showModal ? <AboutModal closeModal={this.toggleAboutModal} /> : null}
             </div>
         )
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    return {
-        optionId: state.option._id
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        setOption: (optionId) => dispatch(setOption(optionId))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Navbar))
+export default Navbar

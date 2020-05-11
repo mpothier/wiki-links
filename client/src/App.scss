@@ -1,3 +1,40 @@
+#app {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#content {
+    flex-grow: 1;
+    position: relative;
+    overflow: auto;
+}
+
 .col-2, .col-10 {
     padding: 0;
 }
+
+// SCROLLBAR CUSTOMIZATION
+::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(177, 177, 177, 0.35);
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.5);
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    &:window-inactive {
+        background: rgba(255,255,255,0.5);
+    }
+  }
