@@ -6,8 +6,8 @@ import './LinkChart.scss'
 
 class LinkChart extends Component {
     state = {
-        canvasWidth: 560,
-        canvasHeight: 360,
+        canvasWidth: 600,
+        canvasHeight: 500,
         canvasMargin: 5,
         data: {
             nodes: null,
@@ -128,43 +128,6 @@ class LinkChart extends Component {
         // }
     }
 
-    drawLinkChartOld = () => {
-        const { canvasHeight, canvasWidth } = this.state
-        const margin = 50
-
-        // Re-map positions to canvas scale
-        var posX = d3.scaleLinear()
-            .domain([0, 1])
-            .range([margin, canvasWidth - margin])
-        var posY = d3.scaleLinear()
-            .domain([0, 1])
-            .range([margin, canvasHeight - margin])
-
-        // DOM manipulations
-        const svgCanvas = d3.select('#chart-canvas')
-            .append('svg')
-            .attr('width', canvasWidth)
-            .attr('height', canvasHeight)
-            .style('border', '1px solid grey')
-
-        svgCanvas
-            .append('rect')
-            .attr('width', canvasWidth - (margin * 2))
-            .attr('height', canvasHeight - (margin * 2))
-            .attr('x', margin)
-            .attr('y', margin)
-            .style('stroke', 'grey')
-            .style('fill', 'none')
-
-        svgCanvas.append('g').selectAll('circle')
-            .data(this.state.data.nodes).enter()
-            .append('circle')
-            .attr('r', (d) => d.count / 6 * margin)
-            .attr('cy', (d) => posY(d.position))
-            .attr('cx', (d) => posX(d.position))
-            .style('fill', 'rgba(0,0,0,0.25)')
-    }
-
     drawLinkChart = () => {
         const { canvasHeight, canvasWidth, canvasMargin } = this.state
         const { entries } = this.props
@@ -184,7 +147,7 @@ class LinkChart extends Component {
         
         // Scale nodes based on count (frequency)
         var scaleRadius = d3.scaleLinear()
-            .domain([1, Math.max(...this.state.data.nodes.map(node => node.count))])
+            .domain([1, Math.max(...this.props.data.nodes.map(node => node.count))])
             .range([5, 30])
         var repelStrength = d3.scaleLinear()
             .domain([0, 0.5])
@@ -259,7 +222,7 @@ class LinkChart extends Component {
         const linkElements = svgCanvas.append('g')
             .attr('class', 'links')
             .selectAll('line')
-            .data(this.state.data.links)
+            .data(this.props.data.links)
             .enter().append('line')
             .attr('id', (d) => d.entryId)
             .attr('class', 'link')
@@ -271,7 +234,7 @@ class LinkChart extends Component {
         const nodeElements = svgCanvas.append("g")
             .attr("class", "nodes")
             .selectAll("circle")
-            .data(this.state.data.nodes)
+            .data(this.props.data.nodes)
             .enter().append("circle")
             .attr('id', (d) => d.title)
             .attr('class', 'node')
@@ -282,11 +245,11 @@ class LinkChart extends Component {
             .call(drag(simulation))
 
         // Run simulation
-        simulation.nodes(this.state.data.nodes)
+        simulation.nodes(this.props.data.nodes)
             .on('tick', tick)
             .on('end', () => this.props.entryId && this.highlightLinkChain(this.props.entryId))
 
-        simulation.force('link').links(this.state.data.links)
+        simulation.force('link').links(this.props.data.links)
 
         // Custom settings: constrain movement within canvas bounds
         function tick() {
@@ -302,47 +265,6 @@ class LinkChart extends Component {
         }
     }
 
-    processData = (entries) => {
-        var nodeMap = {}
-        var linkList = []
-        // Aggregate data across all entries into node map and array of link objects
-        entries.forEach(entry => {
-            const totalLinks = entry.pageLinks.length
-            for (let i = 0; i < totalLinks; i++) {
-                const title = entry.pageLinks[i]
-                const nextTitle = (i + 1 < totalLinks) ? entry.pageLinks[i + 1] : null
-                // Process NODE
-                const position = i / (totalLinks - 1)  // normalized between 0 and 1
-                if (title in nodeMap) {
-                    nodeMap[title].count += 1
-                    nodeMap[title].positions.push(position)
-                } else {
-                    nodeMap[title] = { count: 1, positions: [position] }
-                }
-                // Process LINK
-                if (title && nextTitle) {
-                    linkList.push({ source: title, target: nextTitle, entryId: entry._id })
-                }
-            }
-        });
-        // Convert into simple object array for d3
-        const nodeList = Object.entries(nodeMap).map(node => {
-            return {
-                title: node[0],
-                count: node[1].count,  // frequency
-                position: node[1].positions.reduce((a, b) => a + b) / node[1].positions.length  // average of normalized positions
-            }
-        })
-        // Update component state
-        this.setState({
-            data: {
-                ...this.state.data,
-                nodes: nodeList,
-                links: linkList
-            }
-        })
-    }
-
     redrawChart = () => {
         d3.selectAll('#chart-canvas g')
             .remove()
@@ -352,22 +274,12 @@ class LinkChart extends Component {
     }
 
     componentDidMount() {
-        this.processData(this.props.entries)
     }
 
     componentDidUpdate(prevProps, prevState, snapshop) {
-        // Re-process data when new entry list is received
-        if ((this.props.entries !== prevProps.entries) && (this.props.entries !== null)) {
-            this.processData(this.props.entries)
-        }
-        // Re-render if optionId parameter changed
-        if (this.props.optionId !== prevProps.optionId) {
-            this.redrawChart()
-        }
-        // Re-render chart when data in state is updated (i.e. after being re-processed)
-        if (this.state.data !== prevState.data) {
-            this.redrawChart()
-        }
+        // Re-render if option data from props is updated
+        if (this.props.data !== prevProps.data) { this.redrawChart() }
+
         // Re-set 'featured' classes if route entryId parameter changed
         if (this.props.entryId !== prevProps.entryId) {
             if (prevProps.entryId) {
@@ -394,9 +306,9 @@ class LinkChart extends Component {
 
     render() {
         return (
-            <div id="chart">
+            <React.Fragment>
                 <div id='chart-canvas'></div>
-            </div>
+            </React.Fragment>
         )
     }
 }
