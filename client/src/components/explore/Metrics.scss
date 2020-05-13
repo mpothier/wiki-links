@@ -24,7 +24,7 @@
     margin-bottom: 20px;
     display: flex;
     flex-wrap: wrap;
-    background-color: rgb(250, 250, 250);
+    // background-color: rgb(250, 250, 250);
     overflow: auto;
     
     .entry-grid-item {
@@ -37,9 +37,9 @@
         height: 20px;
         background-color: rgb(219, 219, 219);
         // border: 1px solid rgb(110, 110, 110);
-        margin-bottom: 3px;
+        margin-bottom: 5px;
         &:not(:last-child) {
-            margin-right: 3px;
+            margin-right: 5px;
         }
         &:hover {
             background-color: $highlight-color;
@@ -128,7 +128,7 @@
     .aggregate-data {
         
         .stats {
-            margin-bottom: 20px;
+            margin-bottom: 30px;
 
             .stat {
                 display: flex;
@@ -161,6 +161,7 @@
 
         .title {
             font-weight: 500;
+            margin-bottom: 10px;
         }
 
         .link-list {

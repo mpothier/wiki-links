@@ -30,7 +30,7 @@ class LinkChart extends Component {
             )
     }
 
-    addNodeTooltip = (element, node) => {
+    addNodeTooltip = (element, node, tempId=null) => {
         // Option 1: div elements with HTML (not scaling!)
         // d3.select('#chart-canvas').append("div")
         //     .attr("class", "d3-tooltip")
@@ -40,14 +40,22 @@ class LinkChart extends Component {
         //     .style('top', element.getAttribute('cy') - (Number(element.getAttribute('r')) + 20) + 'px')
 
         // Option 2: SVG scalable elements (limited styling)
-        const { canvasMargin } = this.state
+        const { canvasMargin, canvasWidth } = this.state
         const offsetX = 10
         const offsetY = 22
         const padding = 4
-        const nodeTip = {x: element.getAttribute('cx'), y: element.getAttribute('cy') - Number(element.getAttribute('r'))}
+        const circleElement = d3.select(element)
+        const nodeTip = {x: Number(circleElement.attr('cx')), y: Number(circleElement.attr('cy')) - Number(circleElement.attr('r'))}
 
         const tooltip = this.getSvg().append('g')
             .classed('d3-tooltip', true)
+
+        // Add tempId to both node element and tooltip property for individual node highlight tooltips
+        if (tempId) { 
+            circleElement.attr('data-temp-id', tempId)
+            tooltip.attr('data-temp-id', tempId)
+        }
+
         tooltip.append('rect')
         tooltip.append('text')
             .text(node.title)
@@ -57,10 +65,10 @@ class LinkChart extends Component {
         tooltip.select('rect')
             .attr('width', function() { return this.parentNode.children[1].getBBox().width + (padding * 2) })
             .attr('height', function() { return this.parentNode.children[1].getBBox().height + (padding) })
-            .attr('x', function() { return Math.min(nodeTip.x - offsetX, this.parentNode.parentNode.width.baseVal.value - this.getBBox().width - canvasMargin) })
+            .attr('x', function() { return Math.min(nodeTip.x - offsetX, canvasWidth - this.getBBox().width - canvasMargin) })
             .attr('y', function() { return Math.max(nodeTip.y - offsetY, canvasMargin) })
         tooltip.select('text')
-            .attr('x', function() { return Math.min((nodeTip.x - offsetX + padding), this.parentNode.parentNode.width.baseVal.value - this.parentNode.children[0].getBBox().width - canvasMargin + padding) })
+            .attr('x', function() { return Math.min((nodeTip.x - offsetX + padding), canvasWidth - this.parentNode.children[0].getBBox().width - canvasMargin + padding) })
             .attr('y', Math.max((nodeTip.y + padding - offsetY), canvasMargin + padding))
 
             // Math.max(this.getAttribute('r'), Math.min(canvasWidth - this.getAttribute('r'), d.x))
@@ -186,24 +194,28 @@ class LinkChart extends Component {
 
         const handleLinkMouseOut = (d, i) => {
             this.unHighlightLinkChain(d.entryId)
+            if (this.props.entryId) {
+                this.highlightLinkChain(this.props.entryId)
+            }
         }
 
         function handleNodeMouseEnter(d, i) {
-            // Use D3 to select element, change color and size
-            d3.select(this)
-                .attr('r', Number(this.getAttribute('r')) + canvasMargin)
-                .classed('highlight', true)
-            // Add tooltip
-            addNodeTooltip(this, d)
+            const node = d3.select(this)
+            node.attr('r', Number(node.attr('r')) + canvasMargin)  // Scale up circle radius
+            // Highlight node and add tooltip IF node is not currently featured
+            if (!node.classed('featured')) {
+                node.classed('highlight', true)  // Add highlighting class
+                addNodeTooltip(this, d, Math.random())  // Create tooltip
+            }
         }
 
         function handleNodeMouseOut(d, i) {
             // Use D3 to select element, change color back to normal
-            d3.select(this)
+            const tooltip = d3.select(this)
                 .attr('r', Number(this.getAttribute('r')) - canvasMargin)
                 .classed('highlight', false)
-            // Remove tooltips
-            d3.selectAll('.d3-tooltip').remove();
+            // Remove tooltip matching node on 'data-temp-id' attribute
+            d3.select(`g[data-temp-id='${tooltip.attr('data-temp-id')}']`).remove();
         }
 
         // Force simulations
@@ -282,25 +294,32 @@ class LinkChart extends Component {
 
         // Re-set 'featured' classes if route entryId parameter changed
         if (this.props.entryId !== prevProps.entryId) {
+            // No active entryId
             if (prevProps.entryId) {
                 // Remove any active highlight
                 if (this.state.highlightId) {this.unHighlightLinkChain(prevProps.entryId)}
                 // Clear ALL featured classes
                 d3.selectAll('.featured').classed('featured', false)
             }
+            // Active entryId
             if (this.props.entryId) {
                 // Set new featured classes if new entryId exists, then highlight
                 d3.selectAll('.link').classed('featured', (d) => (this.props.entryId === d.entryId))
                 this.highlightLinkChain(this.props.entryId)
             }
         }
+
         // Highlight link chain triggered by other components
-        if(this.props.highlightId && (this.props.highlightId !== prevProps.highlightId)) {
+        if (this.props.highlightId && (this.props.highlightId !== prevProps.highlightId)) {
             this.highlightLinkChain(this.props.highlightId);
         }
         // Un-highlight link chain triggered by other components
         if ((!this.props.highlightId) && (this.props.highlightId !== prevProps.highlightId)) {
             this.unHighlightLinkChain(prevProps.highlightId);
+            // If a route entryId exists, default to re-highlight link chain for entryId
+            if (this.props.entryId) {
+                this.highlightLinkChain(this.props.entryId);
+            }
         }
     }
 

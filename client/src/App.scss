@@ -17,6 +17,17 @@ $highlight-color-dark: rgb(0, 161, 182);
     overflow: auto;
 }
 
+.empty-option {
+  height: 100%;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
 .col-2, .col-10 {
     padding: 0;
 }

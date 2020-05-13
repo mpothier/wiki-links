@@ -90,7 +90,7 @@ class Explore extends Component {
         if (!this.props.optionId) {
             return (
                 <>
-                    <h2>Select an option from the sidebar</h2>
+                    <div className="empty-option"><span>Select an option from the sidebar menu</span></div>
                 </>
             )
         } else {
