@@ -29,6 +29,7 @@ class Metrics extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.match.params.entryId && (this.props.match.params.entryId !== prevProps.match.params.entryId)) {
             // Hacky way to force class names to update! render() isn't doing it despite receiving correct values from getEntryClassName...
+            // See issue https://github.com/facebook/react/issues/13260
             const element = document.querySelector(`.entry-grid #_${this.props.match.params.entryId}`)
             element.classList.add('featured')
         }
@@ -43,8 +44,8 @@ class Metrics extends Component {
         const avgEntryLength = (entries.map(entry => entry.pageLinks.length).reduce((a, b) => a + b) / totalEntries).toFixed(1)
         const maxEntryLength = Math.max(...entries.map(entry => entry.pageLinks.length))
         const minEntryLength = Math.min(...entries.map(entry => entry.pageLinks.length))
-        const sortedEntryFrequency = data.nodes.filter(entry => entry.title !== titleStart && entry.title !== titleFinish)
-            .sort((a, b) => (a.count < b.count) ? 1 : ((a.title > b.title) ? 1 : -1))
+        const sortedEntryFrequency = data.nodes ? data.nodes.filter(entry => entry.title !== titleStart && entry.title !== titleFinish)
+            .sort((a, b) => (a.count < b.count) ? 1 : ((a.title > b.title) ? 1 : -1)) : []
 
         return (
             <React.Fragment>

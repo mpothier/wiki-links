@@ -65,14 +65,14 @@ class WikiBrowser extends Component {
     }
     render() {
         return (
-            <div id="wiki-browser" className="container">
+            <div id="wiki-browser">
                 {this.props.loading ? <Loading /> : null}
                 <h1 className="mb-4">{this.props.currentPageData.title || 'Loading...'}</h1>
                 <input 
                     type="text" 
                     id="searchInput" 
-                    className="form-control" 
-                    placeholder="Search links..." 
+                    className="search-bar" 
+                    placeholder="Type to search through links..." 
                     onChange={this.handleChange} 
                     value={this.state.searchInput}
                     autoComplete="off"
@@ -81,11 +81,11 @@ class WikiBrowser extends Component {
                     {this.state.filteredLinks.map(link => {
                         if (link === this.props.titleFinish) {
                             return (
-                                <button key={link} style={{backgroundColor: '#8af68a'}} className="btn btn-light mr-2 mb-2" onClick={() => {this.handleComplete(link)}}>{link}</button>
+                                <button key={link} className="link-button target" onClick={() => {this.handleComplete(link)}}>{link}</button>
                             )
                         } else {
                             return (
-                                <button key={link} className="btn btn-light mr-2 mb-2" onClick={() => {this.loadWiki(link)}}>{link}</button>
+                                <button key={link} className="link-button" onClick={() => {this.loadWiki(link)}}>{link}</button>
                             )
                         }
                     })}
