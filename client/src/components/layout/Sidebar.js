@@ -57,7 +57,7 @@ class Sidebar extends Component {
                 <section className="section-top">
                     <div className="divider">
                         <hr />
-                        <span>Mode</span>
+                        <span>MODE</span>
                         <hr />
                     </div>
                     <div className="mode selections">
@@ -80,7 +80,7 @@ class Sidebar extends Component {
                     </div>
                     <div className="divider">
                         <hr />
-                        <span>Option</span>
+                        <span>OPTION</span>
                         <hr />
                     </div>
                 </section>

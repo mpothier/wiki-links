@@ -41,9 +41,9 @@ class Metrics extends Component {
 
         // Aggregation metrics
         const totalEntries = entries.length
-        const avgEntryLength = (entries.map(entry => entry.pageLinks.length).reduce((a, b) => a + b) / totalEntries).toFixed(1)
-        const maxEntryLength = Math.max(...entries.map(entry => entry.pageLinks.length))
-        const minEntryLength = Math.min(...entries.map(entry => entry.pageLinks.length))
+        const avgEntryLength = totalEntries ? (entries.map(entry => entry.pageLinks.length).reduce((a, b) => a + b) / totalEntries).toFixed(1) : '-'
+        const maxEntryLength = totalEntries ? Math.max(...entries.map(entry => entry.pageLinks.length)) : '-'
+        const minEntryLength = totalEntries ? Math.min(...entries.map(entry => entry.pageLinks.length)) : '-'
         const sortedEntryFrequency = data.nodes ? data.nodes.filter(entry => entry.title !== titleStart && entry.title !== titleFinish)
             .sort((a, b) => (a.count < b.count) ? 1 : ((a.title > b.title) ? 1 : -1)) : []
 

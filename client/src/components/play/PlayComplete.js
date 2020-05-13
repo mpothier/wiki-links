@@ -1,11 +1,13 @@
 import React from 'react'
 
+import './PlayComplete.scss'
+
 const PlayComplete = () => {
     return (
-        <div>
-            <h1>
-               You did it!
-            </h1>
+        <div className="play-complete">
+            <div className="completed-text">
+                Connection completed!
+            </div>
         </div>
     )
 }

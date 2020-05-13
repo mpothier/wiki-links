@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faArrowDown, faBars, faTimes, faArrowRight, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faArrowDown, faBars, faTimes, faArrowRight, faPlus, faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons'
-// import { faWikipediaW } from '@fortawesome/free-brands-svg-icons'
 
 import Navbar from './components/layout/Navbar'
 import Home from './components/main/Home'
@@ -14,7 +13,7 @@ import { loadOptions } from './store/actions/optionListActions'
 
 import './App.scss'
 
-library.add(faArrowDown, faBars, faTimes, faQuestionCircle, faArrowRight, faPlus)
+library.add(faArrowDown, faBars, faTimes, faQuestionCircle, faArrowRight, faPlus, faChevronRight, faChevronLeft)
 
 
 class App extends Component {

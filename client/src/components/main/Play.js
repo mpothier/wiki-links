@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import WikiBrowser from '../play/WikiBrowser'
 import PlayPagesList from '../play/PlayPagesList'
 import PlayComplete from '../play/PlayComplete'
@@ -37,10 +36,6 @@ class Play extends Component {
                     <div className="empty-option"><span>Select an option from the sidebar menu</span></div>
                 </>
             )
-        } else if (this.props.complete === true) {
-            return (
-                <PlayComplete />
-            )
         } else {
             return (
                 <div className="play">
@@ -61,6 +56,7 @@ class Play extends Component {
                                 </div>
                             </section>
                             <section className="content">
+                            {this.props.complete ? <PlayComplete /> : (
                                 <div className="row">
                                     <div className="d-none d-md-block col-md-2">
                                         <PlayPagesList />
@@ -69,6 +65,7 @@ class Play extends Component {
                                         <WikiBrowser />
                                     </div>
                                 </div>
+                            )}
                             </section>
                         </div>
                     </div>
