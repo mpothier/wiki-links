@@ -11,7 +11,7 @@ npm install
 ```
 
 ## Configure environment variables
-Create a `config.env` file under the `server/config` folder:
+Create a `config.env` file under the `config/` folder:
 ```
 NODE_ENV=development
 PORT=5000
@@ -48,4 +48,15 @@ yarn build
 Then serve the app from the root directory:
 ```
 npm start
+```
+
+## Deploy to Heroku
+Set MongoDB URI (if needed/updated):
+```
+heroku config:set MONGODB_URI=<enter_uri_here>
+```
+
+Push git changes to app after committing to master:
+```
+git push heroku master
 ```

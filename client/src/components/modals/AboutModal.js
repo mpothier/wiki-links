@@ -61,7 +61,7 @@ class AboutModal extends Component {
                     <section>
                         <h3>Contribute</h3>
                         <p>Please share this site with others! The more participation, the richer the data set, and the more insights and analyses we will be able to draw in the future.</p>
-                        <p>Also, you can check out the <a href="https://github.com/mpothier/wiki-links" target="_blank">code</a> available on GitHub.</p>
+                        <p>Also, you can check out the <a href="https://github.com/mpothier/wikinexus" target="_blank">code</a> available on GitHub.</p>
                     </section>
                 </div>
             </div>

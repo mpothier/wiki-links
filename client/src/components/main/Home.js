@@ -8,14 +8,14 @@ const Home = () => {
         <div className="home-content">
             <div className="container-wrapper">
                 <div className="container">
-                    <div id="carousel-home" className="carousel" data-ride="carousel" data-interval='false'>
+                    <div id="carousel-home" className="carousel" data-ride="carousel" data-interval='7500'>
                         <div className="carousel-inner">
                             <div className="carousel-item active">
                                 <div className="slide-content">
                                     <h1 className="display-4 text-center">Welcome to Wikinexus</h1>
                                     <p className="lead text-center">
-                                        Wikinexus [ <i>wiki</i>&bull;nexus | <i>wiki</i>&bull;connects&bull;us ] is an open-source project that aims to explore cognitive and cultural associations within our shared world of knowledge. 
-                                        We aim to find and map patterns emergent in the way humans draw connections across concepts.
+                                        Wikinexus [ <i>wiki</i>&bull;nexus | <i>wiki</i>&bull;connects&bull;us ] is an open-source project that seeks to explore cognitive and cultural associations within our shared world of knowledge. 
+                                        We aim to find and map patterns emergent in the way humans draw connections across concepts, using Wikipedia as a vehicle for research.
                                     </p>
                                 </div>
                             </div>
