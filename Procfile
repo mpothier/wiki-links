@@ -1,1 +1,1 @@
-web: --chdir server npm start
+web: npm start

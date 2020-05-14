@@ -7,7 +7,6 @@ yarn install
 
 Install server packages:
 ```
-cd server
 npm install
 ```
 
@@ -23,7 +22,6 @@ Make sure to replace all the `<...>` placeholders with actual account/cluster da
 ## Run Development Servers
 Run client (React) (port 3000) and server (port 5000) concurrently, with hot-reload functionality:
 ```
-cd server
 npm run dev
 ```
 
@@ -35,6 +33,19 @@ yarn start
 
 Run server only (port 5000):
 ```
-cd server
 npm run server
+```
+
+## Test Deployment Locally
+Mimic the Heroku server by serving the built react app using the local server (port 5000):
+
+First make sure the React app is built:
+```
+cd client
+yarn build
+```
+
+Then serve the app from the root directory:
+```
+npm start
 ```
