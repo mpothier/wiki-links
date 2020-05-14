@@ -1,5 +1,6 @@
 import { addEntryToOption } from './optionActions'
 import { saveEntryToLocalStorage } from '../../utils/localStorage'
+import { WIKIPEDIA_API_CONFIG } from '../../utils/wikipediaApiObject'
 
 import wiki from 'wikijs'
 import axios from 'axios'
@@ -14,7 +15,7 @@ export const addPageToPlaySession = (title) => {
     return (dispatch, getState) => {
         dispatch({type: 'START_LOAD_PAGE', title})
         return new Promise((resolve, reject) => {
-            wiki()
+            wiki(WIKIPEDIA_API_CONFIG)
                 .page(title)
                 // .findById(60341080)
                 .then(page => {

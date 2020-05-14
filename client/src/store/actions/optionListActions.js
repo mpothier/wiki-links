@@ -1,3 +1,4 @@
+import { WIKIPEDIA_API_CONFIG } from '../../utils/wikipediaApiObject'
 import axios from 'axios'
 import wiki from 'wikijs'
 
@@ -20,7 +21,7 @@ export const loadOptions = () => {
 
 async function verifyPage(title) {
     try {
-        const page = await wiki().page(title)
+        const page = await wiki(WIKIPEDIA_API_CONFIG).page(title)
         return page.raw.title
     } catch {
         return null
