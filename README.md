@@ -16,7 +16,7 @@ Create a `config.env` file under the `server/config` folder:
 ```
 NODE_ENV=development
 PORT=5000
-MONGO_URI=mongodb+srv://<USERNAME>:<PASSWORD>@<HOST:PORT>/<DB_NAMESPACE>?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://<USERNAME>:<PASSWORD>@<HOST:PORT>/<DB_NAMESPACE>?retryWrites=true&w=majority
 ```
 Make sure to replace all the `<...>` placeholders with actual account/cluster data.
 
