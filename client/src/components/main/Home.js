@@ -12,9 +12,9 @@ const Home = () => {
                         <div className="carousel-inner">
                             <div className="carousel-item active">
                                 <div className="slide-content">
-                                    <h1 className="display-4 text-center">Welcome to WikiLinks</h1>
+                                    <h1 className="display-4 text-center">Welcome to Wikinexus</h1>
                                     <p className="lead text-center">
-                                        WikiLinks is an open-source project that aims to explore cognitive and cultural associations within our shared world of knowledge. 
+                                        Wikinexus [ <i>wiki</i>&bull;nexus | <i>wiki</i>&bull;connects&bull;us ] is an open-source project that aims to explore cognitive and cultural associations within our shared world of knowledge. 
                                         We aim to find and map patterns emergent in the way humans draw connections across concepts.
                                     </p>
                                 </div>

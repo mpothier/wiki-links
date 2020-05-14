@@ -10,7 +10,7 @@ const Header = ({ toggleSidebar, sidebarOpen, toggleAboutModal }) => {
                 <FontAwesomeIcon icon={sidebarOpen ? 'times' : 'bars'} onClick={toggleSidebar} id="toggle"/>
             </div>
             <Link className='brand' to='/' >
-                <span>WikiLinks</span>
+                <span>Wikinexus</span>
             </Link>
             <div className="icon">
                 <FontAwesomeIcon icon={['far', 'question-circle']} onClick={toggleAboutModal} id="toggle"/>
